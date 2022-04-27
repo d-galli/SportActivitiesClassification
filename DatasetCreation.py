@@ -15,7 +15,7 @@ datasetHeader = ["T_xacc", "T_yacc", "T_zacc", "T_xgyro", "T_ygyro", "T_zgyro", 
         "var_LA_xacc", "var_LA_yacc", "var_LA_zacc", "var_LA_xgyro", "var_LA_ygyro", "var_LA_zgyro", "var_LA_xmag", "var_LA_ymag", "var_LA_zmag",
         "var_RL_xacc", "var_RL_yacc", "var_RL_zacc", "var_RL_xgyro", "var_RL_ygyro", "var_RL_zgyro", "var_RL_xmag", "var_RL_ymag", "var_RL_zmag",
         "var_LL_xacc", "var_LL_yacc", "var_LL_zacc", "var_LL_xgyro", "var_LL_ygyro", "var_LL_zgyro", "var_LL_xmag", "var_LL_ymag", "var_LL_zmag",
-        "person_index"]
+        "activity_index"]
 
 # Create the train dataset: 7980 x 91
 # Person from 1 to 7
@@ -26,7 +26,7 @@ for k in range(19):
     for j in range(7):
         print("Elaborating person number: ", personIndex[j], end = "\r")
         for i in range(60):
-            filename = './sportsDataset/a' + activityIndex[k] + '/p'+ personIndex[j] + '/s' + fileIndex[i] + '.txt'
+            filename = f"./sportsDataset/a{activityIndex[k]}/p{personIndex[j]}/s{fileIndex[i]}.txt"
 
             data = np.loadtxt(filename, delimiter=',', skiprows=1, dtype=float)
             dataT = data.transpose()            
@@ -42,7 +42,7 @@ for k in range(19):
 print("\nTraining data correctly stored")
 
 activitiesTrainDataset = np.array(trainingActivities)
-np.savetxt("./sportsDataset/TrainingDataset.csv", activitiesTrainDataset, delimiter=",", header = str(datasetHeader))
+np.savetxt("./sportsDataset/TrainingDataset.csv", activitiesTrainDataset, delimiter=",", header = ','.join(datasetHeader), comments='')
 print("Training dataset created\n")
 
 
@@ -70,5 +70,5 @@ for k in range(19):
 print("\nTesting data correctly stored")
 
 activitiesTestDataset = np.array(testingActivities)
-np.savetxt("./sportsDataset/TestDataset.csv", activitiesTestDataset, delimiter=",", header = str(datasetHeader))
+np.savetxt("./sportsDataset/TestDataset.csv", activitiesTestDataset, delimiter=",", header = ','.join(datasetHeader), comments='')
 print("Testing dataset created\n")
