@@ -1,8 +1,17 @@
 import pandas
 import time
-from sklearn import linear_model
+from sklearn import neighbors
 
 DIGITS = 5
+
+def time_convert(sec):
+    mins = sec // 60
+    sec = sec % 60
+    hours = mins // 60
+    mins = mins % 60
+
+    time_elapsed = "{0}:{1}:{2}".format(int(hours),int(mins),round(sec, 3))
+    return time_elapsed
 
 print("Importing data ...")
 
@@ -17,7 +26,7 @@ test_data_output = test_data.loc[:, test_data.columns == 'activity_index'].value
 print("Data imported")
 print("Training ...")
 start_time = time.time()
-model = linear_model.LogisticRegression(max_iter=10000)
+model = neighbors.KNeighborsClassifier(n_neighbors = 19, metric = 'minkowski', p = 2)
 model.fit(train_data_input, train_data_output)
 train_time = time.time()
 print("Model trained:", round(train_time - start_time, DIGITS), "seconds")
@@ -25,7 +34,6 @@ print("Model trained:", round(train_time - start_time, DIGITS), "seconds")
 print("Testing ...")
 predictions = model.predict(test_data_input)
 test_time = time.time()
-
 print("Model tested:", round(test_time - train_time, DIGITS), "seconds")
 print("Validating ...")
 correct = 0
@@ -35,8 +43,6 @@ for i in range(len(predictions)):
         correct += 1
     total += 1
 accuracy = correct / total
+
 print("Test is done. \nThe accuracy for this model is: ", round(accuracy, DIGITS))
 print("The overall time reqired by this model is: ", round(test_time - start_time, DIGITS), "seconds")
-
-accuracy = correct / total
-print(f"Accuracy for this model is {accuracy}.")
