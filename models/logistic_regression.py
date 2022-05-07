@@ -22,12 +22,12 @@ model.fit(train_data_input, train_data_output)
 train_time = time.time()
 print("Model trained:", round(train_time - start_time, DIGITS), "seconds")
 
-print("Testing ...")
+print("Computing predictions ...")
 predictions = model.predict(test_data_input)
 test_time = time.time()
 
 print("Model tested:", round(test_time - train_time, DIGITS), "seconds")
-print("Validating ...")
+print("Estimating accuracy ...")
 correct = 0
 total = 0
 for i in range(len(predictions)):
@@ -36,7 +36,5 @@ for i in range(len(predictions)):
     total += 1
 accuracy = correct / total
 print("Test is done. \nThe accuracy for this model is: ", round(accuracy, DIGITS))
+print(f"The accuracy for this model is {round(accuracy, DIGITS)}.")
 print("The overall time reqired by this model is: ", round(test_time - start_time, DIGITS), "seconds")
-
-accuracy = correct / total
-print(f"Accuracy for this model is {accuracy}.")
