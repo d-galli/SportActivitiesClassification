@@ -72,3 +72,31 @@ print("\nTesting data correctly stored")
 activitiesTestDataset = np.array(testingActivities)
 np.savetxt("./sportsDataset/TestDataset.csv", activitiesTestDataset, delimiter=",", header = ','.join(datasetHeader), comments='')
 print("Testing dataset created\n")
+
+# Create the entire dataset: 9120 x 91
+# Person from 1 to 8
+allActivities = []
+print("Importing all data")
+for k in range(19):
+    print("Elaborating activity number: ", activityIndex[k])
+    for j in range(8):
+        print("Elaborating person number: ", personIndex[j], end = "\r")
+        for i in range(60):
+            filename = f"./sportsDataset/a{activityIndex[k]}/p{personIndex[j]}/s{fileIndex[i]}.txt"
+
+            data = np.loadtxt(filename, delimiter=',', skiprows=1, dtype=float)
+            dataT = data.transpose()            
+            average = np.mean(dataT, axis = 1)
+            variance = np.var(dataT, axis = 1)
+            
+            index = np.array([int(activityIndex[k])])
+            #newData = np.append(average,variance, index, axis = 0)
+            newData = np.concatenate((average, variance, index), axis = None)
+            
+            allActivities.append(newData)
+
+print("\nData correctly stored")
+
+ActivitiesDataset = np.array(allActivities)
+np.savetxt("./sportsDataset/ActivitiesDataset.csv", ActivitiesDataset, delimiter=",", header = ','.join(datasetHeader), comments='')
+print("Activity dataset created\n")

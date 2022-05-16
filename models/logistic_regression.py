@@ -8,9 +8,12 @@ print("Importing data ...")
 
 train_data = pandas.read_csv("../sportsDataset/TrainingDataset.csv")
 test_data = pandas.read_csv("../sportsDataset/TestDataset.csv")
+all_data = pandas.read_csv("../sportsDataset/TestDataset.csv")
 
 train_data_input = train_data.loc[:, train_data.columns != 'activity_index']
 train_data_output = train_data.loc[:, train_data.columns == 'activity_index'].values.ravel()
+test_data_input = test_data.loc[:, test_data.columns != 'activity_index']
+test_data_output = test_data.loc[:, test_data.columns == 'activity_index'].values.ravel()
 test_data_input = test_data.loc[:, test_data.columns != 'activity_index']
 test_data_output = test_data.loc[:, test_data.columns == 'activity_index'].values.ravel()
 
