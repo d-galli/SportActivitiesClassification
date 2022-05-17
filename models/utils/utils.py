@@ -1,9 +1,13 @@
+import os.path
+import sys
 import pandas as pd
 from sklearn import decomposition
 from matplotlib import pyplot as plt
 import seaborn as sns
 from sklearn.metrics import ConfusionMatrixDisplay
 
+PLOT_DIRECTORY = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plots")
+CV_FOLDS = 7
 DIGITS = 5
 ACTIVITIES = ["sitting", "standing", "lying on back", "laying on right side",
               "ascending stairs", "descending stairs", "standing in an elevator still",
@@ -28,7 +32,7 @@ def get_principal_components(data_input, n_components=2):
     return pca.fit_transform(data_input)
 
 
-def create_predictions_scatterplot(path, x, y, predictions):
+def create_predictions_scatterplot(filename, x, y, predictions):
     predictions_text = [ACTIVITIES[i - 1] for i in predictions]
 
     plt.figure(figsize=(15, 10))
@@ -41,10 +45,14 @@ def create_predictions_scatterplot(path, x, y, predictions):
     plt.ylabel('Principal Component 2', fontsize=15)
     plt.legend(bbox_to_anchor=(1.02, 1), loc=2, borderaxespad=0.)
     plt.subplots_adjust(right=0.75)
-    plt.savefig(path)
+
+    if not os.path.isdir(PLOT_DIRECTORY):
+        os.makedirs(PLOT_DIRECTORY)
+
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
 
 
-def create_prediction_hits_scatterplot(path, x, y, data_output, predictions):
+def create_prediction_hits_scatterplot(filename, x, y, data_output, predictions):
     prediction_correct = ['Correct' if predictions[i] == data_output[i]
                           else 'Wrong' for i in range(len(predictions))]
 
@@ -59,12 +67,20 @@ def create_prediction_hits_scatterplot(path, x, y, data_output, predictions):
     plt.ylabel('Principal Component 2', fontsize=15)
     plt.legend(bbox_to_anchor=(1.02, 1), loc=2, borderaxespad=0.)
     plt.subplots_adjust(right=0.75)
-    plt.savefig(path)
+
+    if not os.path.isdir(PLOT_DIRECTORY):
+        os.makedirs(PLOT_DIRECTORY)
+
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
 
 
-def create_confusion_matrix_plot(path, confusion_matrix):
+def create_confusion_matrix_plot(filename, confusion_matrix):
     cmd = ConfusionMatrixDisplay(confusion_matrix, display_labels=ACTIVITIES)
     fig, ax = plt.subplots(figsize=(15, 15))
     cmd.plot(cmap=plt.cm.Blues, xticks_rotation=45, ax=ax)
     plt.tight_layout()
-    plt.savefig(path, pad_inches=100)
+
+    if not os.path.isdir(PLOT_DIRECTORY):
+        os.makedirs(PLOT_DIRECTORY)
+
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename), pad_inches=100)

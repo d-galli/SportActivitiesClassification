@@ -1,4 +1,6 @@
 import time
+import os.path
+import sys
 
 from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler
@@ -7,8 +9,16 @@ from utils import utils
 
 print("Importing data ...")
 
-train_data_input, train_data_output = utils.get_splitted_dataset("../sportsDataset/TrainingDataset.csv")
-test_data_input, test_data_output = utils.get_splitted_dataset("../sportsDataset/TestDataset.csv")
+train_data_input, train_data_output = \
+    utils.get_splitted_dataset(
+        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
+                     "../sportsDataset/TrainingDataset.csv")
+    )
+test_data_input, test_data_output = \
+    utils.get_splitted_dataset(
+        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
+                     "../sportsDataset/TestDataset.csv")
+    )
 
 scaler = StandardScaler()
 scaler.fit(train_data_input)
@@ -19,7 +29,7 @@ test_data_input = scaler.transform(test_data_input)
 print("Data imported")
 print("Training ...")
 start_time = time.time()
-model = linear_model.LogisticRegressionCV(max_iter=8000, cv=7)
+model = linear_model.LogisticRegressionCV(max_iter=8000, cv=utils.CV_FOLDS)
 model.fit(train_data_input, train_data_output)
 train_time = time.time()
 print(f"Model trained: {round(train_time - start_time, utils.DIGITS)} seconds")
@@ -28,6 +38,9 @@ print("Computing predictions ...")
 predictions = [int(i) for i in model.predict(test_data_input)]
 test_time = time.time()
 print(f"Model tested: {round(test_time - train_time, utils.DIGITS)} seconds")
+
+print(f"The overall time reqired by this model is: "
+      f"{round(test_time - start_time, utils.DIGITS)} seconds")
 
 print("The classification report is:\n")
 print(classification_report(test_data_output, predictions, zero_division=0))
@@ -54,5 +67,3 @@ utils.create_prediction_hits_scatterplot("LR_prediction_hits_scatterplot.png",
                                          test_data_output,
                                          predictions)
 print("Done.")
-
-print(f"The overall time reqired by this model is: {round(test_time - start_time, utils.DIGITS)} seconds")
