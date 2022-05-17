@@ -53,7 +53,7 @@ utils.create_confusion_matrix_plot("LR_confusion_matrix.png", confusion_matrix)
 print("Visualise decision boundaries")
 print("Performing PCA ...")
 principal_components = utils.get_principal_components(test_data_input)
-print("Done.")
+print("Done")
 
 print("Plotting predictions ...")
 utils.create_predictions_scatterplot("LR_predictions_scatterplot.png",
@@ -66,4 +66,4 @@ utils.create_prediction_hits_scatterplot("LR_prediction_hits_scatterplot.png",
                                          principal_components[:, 1],
                                          test_data_output,
                                          predictions)
-print("Done.")
+print("Done")

@@ -93,4 +93,4 @@ utils.create_prediction_hits_scatterplot("MLP_prediction_hits_scatterplot.png",
                                          principal_components[:, 1],
                                          test_data_output,
                                          predictions)
-print("Done.")
+print("Done")

@@ -124,3 +124,5 @@ plt.title('Error Rate K Value', fontsize = 20)
 plt.xlabel('K Value' , fontsize = 15)
 plt.ylabel('Mean Error', fontsize = 15)
 plt.savefig("kNN_error_rate_k_value_plot.png")
+
+print("Done")
