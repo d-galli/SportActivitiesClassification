@@ -25,7 +25,7 @@ train_time = time.time()
 print(f"Model trained: {round(train_time - start_time, utils.DIGITS)} seconds")
 
 print("Computing predictions ...")
-predictions = model.predict(test_data_input)
+predictions = [int(i) for i in model.predict(test_data_input)]
 test_time = time.time()
 print(f"Model tested: {round(test_time - train_time, utils.DIGITS)} seconds")
 
