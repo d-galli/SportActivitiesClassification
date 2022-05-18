@@ -13,15 +13,14 @@ from utils import utils
 
 print("Importing data ...")
 
+parent_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 train_data_input, train_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TrainingDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/training_dataset.csv")
     )
 test_data_input, test_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TestDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/test_dataset.csv")
     )
 
 # Scale the data so that each one can be uniformly evalauted
@@ -123,6 +122,6 @@ plt.plot(range(1, 20), error, color='red', linestyle='dashed', marker='o',
 plt.title('Error Rate K Value', fontsize = 20)
 plt.xlabel('K Value' , fontsize = 15)
 plt.ylabel('Mean Error', fontsize = 15)
-plt.savefig("kNN_error_rate_k_value_plot.png")
+plt.savefig(os.path.join(utils.PLOT_DIRECTORY, "kNN_error_rate_k_value_plot.png"))
 
 print("Done")

@@ -14,15 +14,14 @@ from utils import utils
 
 print("Importing data ...")
 
+parent_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 train_data_input, train_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TrainingDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/training_dataset.csv")
     )
 test_data_input, test_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TestDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/test_dataset.csv")
     )
 
 scaler = StandardScaler()
@@ -55,7 +54,7 @@ model.add(Dense(units = 19,
                 kernel_initializer = 'uniform',
                 activation = 'softmax'))
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-model.fit(train_data_input, train_data_output_dummy, batch_size = 64, epochs = 300)
+model.fit(train_data_input, train_data_output_dummy, batch_size = 64, epochs = 300, verbose=0)
 
 train_time = time.time()
 print(f"Model trained: {round(train_time - start_time, utils.DIGITS)} seconds")

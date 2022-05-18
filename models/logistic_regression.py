@@ -9,15 +9,14 @@ from utils import utils
 
 print("Importing data ...")
 
+parent_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
 train_data_input, train_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TrainingDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/training_dataset.csv")
     )
 test_data_input, test_data_output = \
     utils.get_splitted_dataset(
-        os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])),
-                     "../sportsDataset/TestDataset.csv")
+        os.path.join(parent_dir, "../sports_dataset/test_dataset.csv")
     )
 
 scaler = StandardScaler()
@@ -47,7 +46,7 @@ print(classification_report(test_data_output, predictions, zero_division=0))
 
 print("Confusion matrix:")
 confusion_matrix = confusion_matrix(test_data_output, predictions)
-print(confusion_matrix)
+print(confusion_  matrix)
 utils.create_confusion_matrix_plot("LR_confusion_matrix.png", confusion_matrix)
 
 print("Visualise decision boundaries")

@@ -1,10 +1,10 @@
 import os.path
 import sys
 import pandas as pd
-from sklearn import decomposition
+from sklearn import decomposition, tree
 from matplotlib import pyplot as plt
 import seaborn as sns
-from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay
 
 PLOT_DIRECTORY = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plots")
 CV_FOLDS = 7
@@ -84,3 +84,73 @@ def create_confusion_matrix_plot(filename, confusion_matrix):
         os.makedirs(PLOT_DIRECTORY)
 
     plt.savefig(os.path.join(PLOT_DIRECTORY, filename), pad_inches=100)
+
+
+def create_impurity_vs_alpha_plot(filename, impurities, ccp_alphas):
+    fig, ax = plt.subplots()
+    ax.plot(ccp_alphas[:-1], impurities[:-1], marker='.', drawstyle="steps-post")
+    ax.set_xlabel('Effective $\\alpha $', fontsize=15)
+    ax.set_ylabel("Total impurity of leaves", fontsize=15)
+    ax.set_title('Total impurity VS Effective $\\alpha $', fontsize=20)
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
+
+
+def create_depth_vs_alpha_plot(filename, tree_depths, ccp_alphas):
+    plt.figure(figsize=(10, 6))
+    plt.plot(ccp_alphas[:-1], tree_depths[:-1], marker='.')
+    plt.xlabel("Effective $ \\alpha$", fontsize=15)
+    plt.ylabel("Depth of the tree", fontsize=15)
+    plt.xscale("log")
+    plt.title('Total depth  VS Effective $\\alpha $', fontsize=20)
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
+
+
+def create_accuracy_vs_alpha_plot(filename, acc_scores, ccp_alphas):
+    plt.figure(figsize=(10, 6))
+    plt.grid()
+    plt.plot(ccp_alphas[:-1], acc_scores[:-1], marker='.')
+    plt.xlabel("Effective $ \\alpha$", fontsize=15)
+    plt.ylabel("Accuracy", fontsize=15)
+    plt.xscale("log")
+    plt.title('Accuracy VS Effective $\\alpha $', fontsize=20)
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
+
+
+def get_parametrized_decision_trees(criterion, param, param_values):
+    return [tree.DecisionTreeClassifier(criterion=criterion, **{param: i}) for i in param_values]
+
+
+def get_accuracies_of_decision_trees(dtrees, test_data_input, test_data_output):
+    accuracies = []
+    for dtree in dtrees:
+        pred = dtree.predict(test_data_input)
+        accuracies.append(accuracy_score(test_data_output, pred))
+    return accuracies
+
+
+def create_param_accuracy_plot(filename, param, data):
+    plt.figure(figsize=(10, 6))
+    plt.plot(param, 'acc_gini', data=data, label='gini')
+    plt.plot(param, 'acc_entropy', data=data, label='entropy')
+    plt.xlabel(param)
+    plt.ylabel('accuracy')
+    plt.legend()
+    plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
+
+def get_parametrized_decision_tree_accuracies(param,
+                                              param_values,
+                                              train_data_input,
+                                              train_data_output,
+                                              test_data_input,
+                                              test_data_output):
+    accuracies = {}
+    for criterion in ["gini", "entropy"]:
+        decision_trees = get_parametrized_decision_trees("gini", param, param_values)
+        for dtree in decision_trees:
+            dtree.fit(train_data_input, train_data_output)
+        accuracies[f"acc_{criterion}"] = \
+            get_accuracies_of_decision_trees(decision_trees,
+                                             test_data_input,
+                                             test_data_output)
+
+    return accuracies
