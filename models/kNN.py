@@ -84,21 +84,16 @@ print("Cross Validation")
 knn_cv = neighbors.KNeighborsClassifier(n_neighbors = 19,
                                         metric = 'minkowski',
                                         p = 2)
-cv_scores = cross_val_score(knn_cv,
-                            train_data_input,
-                            train_data_output,
-                            cv = utils.CV_FOLDS)
-print(f"Considering {utils.CV_FOLDS} randomly created  groups "
-      f"and performing the cross validation, the accuracy values "
-      f"obtained are: \n {cv_scores}")
-print(f"which lead to a mean value of: {round(np.mean(cv_scores), utils.DIGITS)}")
+data_input = np.concatenate([train_data_input, test_data_input])
+data_output = np.concatenate([train_data_output, test_data_output])
+cv_scores = utils.get_cross_validation_score(knn_cv, data_input, data_output)
 
 # Hypertuning of model parameters
 print("Optimising model parameters ...")
 knn_opt = neighbors.KNeighborsClassifier()
 param_grid = {'n_neighbors': np.arange(1, 20)}
 print("Parameters grid created")
-knn_gscv = GridSearchCV(knn_opt, param_grid, cv = utils.CV_FOLDS)
+knn_gscv = GridSearchCV(knn_opt, param_grid, cv = utils.PARTICIPANTS_NUM - 1)
 
 print("Training the optimal model ...")
 knn_gscv.fit(train_data_input, train_data_output)
