@@ -46,7 +46,7 @@ print(classification_report(test_data_output, predictions, zero_division=0))
 
 print("Confusion matrix:")
 confusion_matrix = confusion_matrix(test_data_output, predictions)
-print(confusion_  matrix)
+print(confusion_matrix)
 utils.create_confusion_matrix_plot("LR_confusion_matrix.png", confusion_matrix)
 
 print("Visualise decision boundaries")

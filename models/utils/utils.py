@@ -1,13 +1,17 @@
 import os.path
 import sys
 import pandas as pd
+import numpy as np
 from sklearn import decomposition, tree
 from matplotlib import pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 PLOT_DIRECTORY = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plots")
-CV_FOLDS = 7
+CV_FOLDS = 8
 DIGITS = 5
 ACTIVITIES = ["sitting", "standing", "lying on back", "laying on right side",
               "ascending stairs", "descending stairs", "standing in an elevator still",
@@ -154,3 +158,16 @@ def get_parametrized_decision_tree_accuracies(param,
                                              test_data_output)
 
     return accuracies
+
+def get_cross_validation_score(classifier, train_data_input, train_data_output ):
+    
+    scalar = StandardScaler()
+    pipeline = Pipeline([('transformer', scalar), ('estimator', classifier)])
+    cv_scores = cross_val_score(pipeline, train_data_input, train_data_output, cv = CV_FOLDS)
+
+    print(f"Considering {CV_FOLDS} randomly created  groups "
+      f"and performing the cross validation, the accuracy values "
+      f"obtained are: \n {cv_scores}")
+    print(f"which lead to a mean value of: {round(np.mean(cv_scores), DIGITS)}")
+
+    return cv_scores
