@@ -1,11 +1,26 @@
-# SportActivitiesClassification #
-Group project for Machine Learning class
+# Comparison of common Machine Learning Algorithms considering a sport activities Classification Task
+
+*Group project for Machine Learning class of Galli Davide and Papousek Jiri.*
+
+## Introduction to the Project ##
+Even if Deep Learning is continuosly growing in terms of importance, classical Machine Learning technquis still represent a cornerstone for people who approach computer science for the first time. There are loads of different techniques, some of them are specifically devoted to tackle given types of problems; some others are instead multi-porpose.
+
+One popular task is the so called *classification problem*, where the model’s output is a category with a semantic meaning. A classification model attempts to draw some conclusion from observed values.
+Different methods can be implemented to tackle this problem.
+
+Our focus is a brief comparative study over four different machine learning supervised techniques:
+1. Logistic Regression
+2. K Nearest Neighbors
+3. Decision Trees
+4. Multilayer Perceptron
 
 ## Brief Description of the Dataset ##
 
-Each of the 19 activities is performed by eight subjects (4 female, 4 male, between the ages 20 and 30) for 5 minutes.
+The choosen [dataset](https://archive-beta.ics.uci.edu/ml/datasets/daily+and+sports+activities) comprises motion sensor data of 19 daily and sports activities performed by 8 subjects (between 20 and 30 years old) *in their own style* for 5 minutes. Five Xsens MTx units are used on the torso, arms, and legs. This kind of sensor embeds a gyroscope, an accelerometer and a magnetometer.
 
-Total signal duration is 5 minutes for each activity of each subject. The subjects are asked to perform the activities in their own style and were not restricted on how the activities should be performed. For this reason, there are inter-subject variations in the speeds and amplitudes of some activities. The activities are performed at the Bilkent University Sports Hall, in the Electrical and Electronics Engineering Building, and in a flat outdoor area on campus. Sensor units are calibrated to acquire data at 25 Hz sampling frequency. The 5-min signals are divided into 5-sec segments so that 480(=60x8) signal segments are obtained for each activity.
+Since activities are perfomed as the subject desires, there might be inter-subject variations in the speeds and amplitudes of some activities.
+
+The activities are performed at the Bilkent University Sports Hall, in the Electrical and Electronics Engineering Building, and in a flat outdoor area on campus. Sensor units are calibrated to acquire data at 25 Hz sampling frequency. The 5-min signals are divided into 5-sec segments so that 480(=60x8) signal segments are obtained for each activity.
 
 The 19 activities are:
 
@@ -66,6 +81,8 @@ The 19 activities are:
  Therefore, columns 1-9 correspond to the sensors in unit 1 (T), columns 10-18 correspond to the sensors in unit 2 (RA), columns 19-27 correspond to the sensors in unit 3 (LA), columns 28-36 correspond to the sensors in unit 4 (RL), columns 37-45 correspond to the sensors in unit 5 (LL). 
 
  ## References ##
-
- 1. [Google Doc](https://docs.google.com/document/d/1X6JU_rh4H7OcOkrFUSeOb85vVkMK8G-H3ikMRJ6c2Zc/edit#)
- 2. [Dataset](https://archive-beta.ics.uci.edu/ml/datasets/daily+and+sports+activities)
+1. [Comparative Study on Classic Machine learning Algorithms](https://towardsdatascience.com/comparative-study-on-classic-machine-learning-algorithms-24f9ff6ab222)
+2. [Daily and Sports Activities Dataset](https://archive-beta.ics.uci.edu/ml/datasets/daily+and+sports+activities)
+3. [Scikit Learn Python Library](https://scikit-learn.org/stable/)
+4. [Keras Python Library](https://keras.io/)
+5. [Project GitHub Repository](https://github.com/d-galli/SportActivitiesClassification)
