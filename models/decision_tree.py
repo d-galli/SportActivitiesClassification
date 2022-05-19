@@ -7,7 +7,6 @@ import sys
 
 from sklearn import tree, decomposition
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from sklearn.model_selection import GridSearchCV, cross_val_score
 from sklearn.preprocessing import StandardScaler
 
 from utils import utils

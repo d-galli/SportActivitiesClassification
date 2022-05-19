@@ -57,7 +57,7 @@ mlp.add(Dense(units = 19,
                 kernel_initializer = 'uniform',
                 activation = 'softmax'))
 mlp.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-model = KerasClassifier(build_fn=mlp, epochs=100, batch_size=128, verbose=1)
+model = KerasClassifier(model=mlp, epochs=100, batch_size=128, verbose=1)
 
 model.fit(train_data_input, train_data_output_dummy)
 
@@ -65,7 +65,7 @@ train_time = time.time()
 print(f"Model trained: {round(train_time - start_time, utils.DIGITS)} seconds")
 
 print("Testing...")
-predictions = model.predict(test_data_input, verbose=1).argmax(axis=-1) + 1
+predictions = model.predict(test_data_input).argmax(axis=-1) + 1
 test_time = time.time()
 print(f"Model tested: {round(test_time - train_time, utils.DIGITS)} seconds")
 
@@ -113,7 +113,7 @@ model.add(Dense(units = 19,
                 kernel_initializer = 'uniform',
                 activation = 'softmax'))
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-estimator = KerasClassifier(build_fn=model, epochs=200, batch_size=128, verbose=0)
+estimator = KerasClassifier(model=model, epochs=100, batch_size=128, verbose=0)
 data_input = np.concatenate([train_data_input, test_data_input])
 data_output = np.concatenate([train_data_output_dummy, test_data_output_dummy])
 cv_scores, mean_cv_scores = utils.get_cross_validation_score(estimator, data_input, data_output)
