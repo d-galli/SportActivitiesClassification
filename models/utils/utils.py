@@ -6,7 +6,7 @@ from sklearn import decomposition, tree
 from matplotlib import pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay
-from sklearn.model_selection import cross_val_score, KFold
+from sklearn.model_selection import cross_validate, KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
@@ -164,14 +164,16 @@ def get_parametrized_decision_tree_accuracies(param,
 def get_cross_validation_score(classifier, data_input, data_output):
     scalar = StandardScaler()
     pipeline = Pipeline([('transformer', scalar), ('estimator', classifier)])
-    cv_scores = cross_val_score(pipeline,
+    cv_scores = cross_validate(pipeline,
                                 data_input,
                                 data_output,
+                                scoring=['accuracy', 'f1_weighted'],
                                 cv = KFold(n_splits=PARTICIPANTS_NUM, shuffle=False))
+    mean_scores = dict([(k, round(np.mean(v), DIGITS)) for (k, v) in cv_scores.items()])
 
     print(f"Considering {PARTICIPANTS_NUM} randomly created  groups "
-      f"and performing the cross validation, the accuracy values "
+      f"and performing the cross validation, the metrics values "
       f"obtained are: \n {cv_scores}")
-    print(f"which lead to a mean value of: {round(np.mean(cv_scores), DIGITS)}")
+    print(f"which lead to a mean values of: \n {mean_scores}")
 
-    return cv_scores
+    return cv_scores, mean_scores

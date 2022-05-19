@@ -116,5 +116,5 @@ model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accu
 estimator = KerasClassifier(build_fn=model, epochs=200, batch_size=128, verbose=0)
 data_input = np.concatenate([train_data_input, test_data_input])
 data_output = np.concatenate([train_data_output_dummy, test_data_output_dummy])
-cv_scores = utils.get_cross_validation_score(estimator, data_input, data_output)
+cv_scores, mean_cv_scores = utils.get_cross_validation_score(estimator, data_input, data_output)
 print("Done")

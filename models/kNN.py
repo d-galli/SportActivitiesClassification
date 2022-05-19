@@ -86,7 +86,7 @@ knn_cv = neighbors.KNeighborsClassifier(n_neighbors = 19,
                                         p = 2)
 data_input = np.concatenate([train_data_input, test_data_input])
 data_output = np.concatenate([train_data_output, test_data_output])
-cv_scores = utils.get_cross_validation_score(knn_cv, data_input, data_output)
+cv_scores, mean_cv_scores = utils.get_cross_validation_score(knn_cv, data_input, data_output)
 
 # Hypertuning of model parameters
 print("Optimising model parameters ...")

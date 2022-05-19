@@ -90,7 +90,7 @@ print("Cross Validation")
 dt_cv = tree.DecisionTreeClassifier(criterion='entropy', max_depth=19)
 data_input = np.concatenate([train_data_input, test_data_input])
 data_output = np.concatenate([train_data_output, test_data_output])
-cv_scores = utils.get_cross_validation_score(dt_cv, data_input, data_output)
+cv_scores, mean_cv_scores = utils.get_cross_validation_score(dt_cv, data_input, data_output)
 
 print("Optimising model parameters ...")
 
