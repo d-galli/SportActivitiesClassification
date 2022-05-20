@@ -62,7 +62,7 @@ The 19 activities are:
  
  A19 &rarr; playing basketball
  
- ## File structure ##
+ ## File Structure ##
  
  19 activities (a) (in the order given above) 8 subjects (p) 60 segments (s) 5 units:
  - on torso (T)
