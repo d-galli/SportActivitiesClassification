@@ -7,7 +7,6 @@ import sys
 
 from sklearn import tree, decomposition
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from sklearn.model_selection import GridSearchCV, cross_val_score
 from sklearn.preprocessing import StandardScaler
 
 from utils import utils
@@ -88,10 +87,9 @@ print("Done")
 
 print("Cross Validation")
 dt_cv = tree.DecisionTreeClassifier(criterion='entropy', max_depth=19)
-cv_scores = cross_val_score(dt_cv, train_data_input, train_data_output, cv=utils.CV_FOLDS)
-print(f"Considering {utils.CV_FOLDS} randomly created groups and performing "
-      f"the cross validation, the accuracy values obtained are:\n {cv_scores}")
-print(f"which lead to a mean value of: {round(np.mean(cv_scores), utils.DIGITS)}")
+data_input = np.concatenate([train_data_input, test_data_input])
+data_output = np.concatenate([train_data_output, test_data_output])
+cv_scores, mean_cv_scores = utils.get_cross_validation_score(dt_cv, data_input, data_output)
 
 print("Optimising model parameters ...")
 

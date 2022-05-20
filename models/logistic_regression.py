@@ -1,3 +1,4 @@
+import numpy as np
 import time
 import os.path
 import sys
@@ -28,7 +29,7 @@ test_data_input = scaler.transform(test_data_input)
 print("Data imported")
 print("Training ...")
 start_time = time.time()
-model = linear_model.LogisticRegressionCV(max_iter=8000, cv=utils.CV_FOLDS)
+model = linear_model.LogisticRegression(max_iter=8000)
 model.fit(train_data_input, train_data_output)
 train_time = time.time()
 print(f"Model trained: {round(train_time - start_time, utils.DIGITS)} seconds")
@@ -65,4 +66,11 @@ utils.create_prediction_hits_scatterplot("LR_prediction_hits_scatterplot.png",
                                          principal_components[:, 1],
                                          test_data_output,
                                          predictions)
+print("Done")
+
+print("Cross Validation")
+classifier_cv = linear_model.LogisticRegression(max_iter=8000)
+data_input = np.concatenate([train_data_input, test_data_input])
+data_output = np.concatenate([train_data_output, test_data_output])
+cv_scores, mean_cv_scores = utils.get_cross_validation_score(classifier_cv, data_input, data_output)
 print("Done")

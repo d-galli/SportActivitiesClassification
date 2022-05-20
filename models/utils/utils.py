@@ -6,12 +6,12 @@ from sklearn import decomposition, tree
 from matplotlib import pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate, KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
 PLOT_DIRECTORY = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "plots")
-CV_FOLDS = 8
+PARTICIPANTS_NUM = 8
 DIGITS = 5
 ACTIVITIES = ["sitting", "standing", "lying on back", "laying on right side",
               "ascending stairs", "descending stairs", "standing in an elevator still",
@@ -141,6 +141,7 @@ def create_param_accuracy_plot(filename, param, data):
     plt.legend()
     plt.savefig(os.path.join(PLOT_DIRECTORY, filename))
 
+
 def get_parametrized_decision_tree_accuracies(param,
                                               param_values,
                                               train_data_input,
@@ -159,15 +160,20 @@ def get_parametrized_decision_tree_accuracies(param,
 
     return accuracies
 
-def get_cross_validation_score(classifier, train_data_input, train_data_output ):
-    
+
+def get_cross_validation_score(classifier, data_input, data_output):
     scalar = StandardScaler()
     pipeline = Pipeline([('transformer', scalar), ('estimator', classifier)])
-    cv_scores = cross_val_score(pipeline, train_data_input, train_data_output, cv = CV_FOLDS)
+    cv_scores = cross_validate(pipeline,
+                                data_input,
+                                data_output,
+                                scoring=['accuracy', 'f1_weighted'],
+                                cv = KFold(n_splits=PARTICIPANTS_NUM, shuffle=False))
+    mean_scores = dict([(k, round(np.mean(v), DIGITS)) for (k, v) in cv_scores.items()])
 
-    print(f"Considering {CV_FOLDS} randomly created  groups "
-      f"and performing the cross validation, the accuracy values "
+    print(f"Considering {PARTICIPANTS_NUM} randomly created  groups "
+      f"and performing the cross validation, the metrics values "
       f"obtained are: \n {cv_scores}")
-    print(f"which lead to a mean value of: {round(np.mean(cv_scores), DIGITS)}")
+    print(f"which lead to a mean values of: \n {mean_scores}")
 
-    return cv_scores
+    return cv_scores, mean_scores
