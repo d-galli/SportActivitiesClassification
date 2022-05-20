@@ -14,7 +14,7 @@ Our focus is a brief comparative study over four different machine learning supe
 3. Decision Trees
 4. Multilayer Perceptron
 
-## Brief Description of the Dataset ##
+## Brief Dataset Description ##
 
 The choosen [dataset](https://archive-beta.ics.uci.edu/ml/datasets/daily+and+sports+activities) comprises motion sensor data of 19 daily and sports activities performed by 8 subjects (between 20 and 30 years old) *in their own style* for 5 minutes. Five Xsens MTx units are used on the torso, arms, and legs. This kind of sensor embeds a gyroscope, an accelerometer and a magnetometer.
 
